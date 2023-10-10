@@ -1,14 +1,18 @@
 #include "system.h"
+#include "pacer.h"
+#include "pio.h"
+#include "scrollstring.h"
+#include "gameboard.h"
 
 int main (void)
 {
-    system_init ();
+    system_init();
+
+    scrolling_screen("READY?");
+    countingdown();
+    
+    board_init ();
 
 
-    while (1)
-    {
-
-
-
-    }
+    return 0;
 }

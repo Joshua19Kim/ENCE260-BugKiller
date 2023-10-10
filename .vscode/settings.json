@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "tinygl.h": "c",
+        "ready.h": "c",
+        "gameboard.h": "c"
+    }
+}
