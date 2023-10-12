@@ -25,17 +25,15 @@ typedef struct dots_position
 typedef enum game_status {
     READY,
     PLAYING,
-    GAVEOVER
+    GAMEOVER
 } gstatus_t;
 
-typedef enum stage_level{
-    FIRST_STAGE = 8,
-    SECOND_STAGE = 18,
-    THIRD_STAGE = 25
+// typedef enum stage_level{
+//     FIRST_STAGE = 6,
+//     SECOND_STAGE = 15,
+//     THIRD_STAGE = 20
 
-} stage_t;
-
-
+// } stage_t;
 
 
 void nav_init (void) ;
@@ -47,9 +45,9 @@ int8_t dot_check (dots_t*, uint8_t, tinygl_point_t) ;
 
 void player_move (dots_t*, player_t*, int8_t, int8_t) ;
 
-void nav_control (dots_t*, player_t*) ;
+void nav_control (dots_t*, player_t*, uint8_t) ;
 
-void dots_create (dots_t*, stage_t) ;
+void dots_create (dots_t*, uint8_t) ;
 
 
 void temp_work (void) ;

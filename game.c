@@ -8,11 +8,12 @@ int main (void)
 {
     system_init();
 
-    // scrolling_screen("READY?");
-    // countingdown();
+    scrolling_screen("READY?");
+    countingdown();
     
     
     temp_work();
+    scrolling_screen("GAMEOVER");
 
     return 0;
 }
