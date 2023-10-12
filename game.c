@@ -8,11 +8,11 @@ int main (void)
 {
     system_init();
 
-    scrolling_screen("READY?");
-    countingdown();
+    // scrolling_screen("READY?");
+    // countingdown();
     
-    board_init ();
-
+    
+    temp_work();
 
     return 0;
 }

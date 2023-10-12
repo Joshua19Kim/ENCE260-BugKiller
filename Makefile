@@ -23,7 +23,7 @@ game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pa
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../drivers/avr/pio.h
+gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 scrollstring.o: scrollstring.c scrollstring.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
@@ -55,7 +55,7 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 
 
 # Link: create ELF output file from object files.
-game.out: game.o gameboard.o scrollstring.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o 
+game.out: game.o gameboard.o scrollstring.o pio.o system.o timer.o display.o font.o pacer.o tinygl.o navswitch.o ledmat.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
