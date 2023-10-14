@@ -11,16 +11,22 @@
 #include "system.h"
 #include "tinygl.h"
 
-typedef struct player_position
+#define TOTAL_SPOTS 35
+#define TOTAL_STAGE 3
+#define INCR_RATE_BUGS 2
+#define STARTING_NUM_BUGS 2
+
+
+typedef struct killer_position
 {
     tinygl_point_t pos;
-} player_t;
+} killer_t;
 
-typedef struct dots_position
+typedef struct bugs_position
 {
     tinygl_point_t pos;
     bool status;
-} dots_t;
+} bugs_t;
 
 typedef enum game_status {
     READY,
@@ -28,29 +34,20 @@ typedef enum game_status {
     GAMEOVER
 } gstatus_t;
 
-// typedef enum stage_level{
-//     FIRST_STAGE = 6,
-//     SECOND_STAGE = 15,
-//     THIRD_STAGE = 20
-
-// } stage_t;
-
 
 void nav_init (void) ;
 
 void nav_update (void) ;
 
+void killer_blink (killer_t) ;
 
-int8_t dot_check (dots_t*, uint8_t, tinygl_point_t) ;
+int8_t bug_check (bugs_t*, uint8_t, tinygl_point_t) ;
 
-void player_move (dots_t*, player_t*, int8_t, int8_t) ;
+void killer_move (bugs_t*, killer_t*, int8_t, int8_t) ;
 
-void nav_control (dots_t*, player_t*, uint8_t) ;
+uint16_t killer_control (bugs_t*, killer_t*, uint8_t, uint16_t) ;
 
-void dots_create (dots_t*, uint8_t) ;
-
-
-void temp_work (void) ;
+void bugs_create (bugs_t*, uint8_t) ;
 
 
 
