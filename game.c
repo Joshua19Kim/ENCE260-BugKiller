@@ -3,6 +3,7 @@
 #include "pio.h"
 #include "scrollstring.h"
 #include "gameboard.h"
+#include "random_number_generator.h"
 
 int main (void)
 {
@@ -13,6 +14,7 @@ int main (void)
     
     board_init ();
 
+    temp_func()
 
     return 0;
 }
