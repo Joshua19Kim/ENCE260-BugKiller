@@ -3,11 +3,12 @@
 #include "pio.h"
 #include "scrollstring.h"
 #include "gameboard.h"
-
+#include "navswitch.h"
 
 
 
 #define PACER_RATE 1000
+#define MESSAGE_RATE 20
 #define NAVSWITCH_RATE 200
 #define BUGS_RATE 200
 #define KILLER_DOT_RATE 5
@@ -20,21 +21,30 @@ static uint8_t current_stage;
 int main (void)
 {   
     system_init();
-
+    nav_init();
+    pacer_init (PACER_RATE);
+    tinygl_init (PACER_RATE);
+    tinygl_text_speed_set(MESSAGE_RATE);
+    
     scrolling_screen("READY?");
     
     // countingdown();
+    while(1)
+    {
+        pacer_wait();
+        tinygl_update();
+        nav_update ();
+
+        if (navswitch_push_event_p (NAVSWITCH_PUSH)) {
+            nav_init ();
+            tinygl_init (PACER_RATE);
+            break;
+        }
+    }
 
     uint16_t navswitch_tick = 0;
     uint16_t bugs_tick = 0;
     uint16_t killer_tick = 0;
-    
-    
-    pacer_init (PACER_RATE);
-    tinygl_init (PACER_RATE);
-    nav_init();
-
-
     
     bugs_t dots[TOTAL_SPOTS];
     

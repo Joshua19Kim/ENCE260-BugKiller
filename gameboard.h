@@ -29,8 +29,10 @@ typedef struct bugs_position
 } bugs_t;
 
 typedef enum game_status {
+    START,
     READY,
     PLAYING,
+    FINISHED,
     GAMEOVER
 } gstatus_t;
 
