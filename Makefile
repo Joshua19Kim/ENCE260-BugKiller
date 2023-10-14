@@ -23,7 +23,7 @@ game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pa
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../drivers/avr/pio.h
+gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 random_number_generator.o: random_number_generator.c random_number_generator.h ../../drivers/avr/system.h
