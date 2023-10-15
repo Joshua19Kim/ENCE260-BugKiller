@@ -9,8 +9,6 @@
 
 typedef char string[];
 
-void tinygl_start (void) ;
-
 void scrolling_screen (string) ;
 
 void countingdown (void) ;

@@ -8,6 +8,9 @@
 #include "gameboard.h"
 #include "system.h"
 #include "ir_uart.h"
+#include "usart1.h"
+#include "timer0.h"
+#include "prescale.h"
 
 #include <stdint.h>
 
