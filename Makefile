@@ -17,7 +17,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h scrollstring.h gameboard.h random_number_generator.h
+game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h scrollstring.h gameboard.h transmitter.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -26,7 +26,10 @@ system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-random_number_generator.o: random_number_generator.c random_number_generator.h ../../drivers/avr/system.h
+# random_number_generator.o: random_number_generator.c random_number_generator.h ../../drivers/avr/system.h
+# 	$(CC) -c $(CFLAGS) $< -o $@
+
+transmitter.o: transmitter.c transmitter.h gameboard.h ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 scrollstring.o: scrollstring.c scrollstring.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
@@ -36,6 +39,9 @@ pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.
 	$(CC) -c $(CFLAGS) $< -o $@
 
 timer.o: ../../drivers/avr/timer.c ../../drivers/avr/system.h ../../drivers/avr/timer.h
+	$(CC) -c $(CFLAGS) $< -o $@
+
+ir_uart.o: ../../drivers/avr/ir_uart.c ../../drivers/avr/ir_uart.h ../../drivers/avr/pio.h ../../drivers/avr/system.h ../../drivers/avr/timer0.h ../../drivers/avr/usart1.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 display.o: ../../drivers/display.c ../../drivers/avr/system.h ../../drivers/display.h ../../drivers/ledmat.h
@@ -58,7 +64,7 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 
 
 # Link: create ELF output file from object files.
-game.out: game.o gameboard.o scrollstring.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o random_number_generator.o
+game.out: game.o gameboard.o scrollstring.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o transmitter.o ir_uart.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 
