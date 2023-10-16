@@ -7,11 +7,16 @@
 #ifndef SCROLLSTRING_H
 #define SCROLLSTRING_H
 
+#include "gameboard.h"
+
+
+
 typedef char string[];
 
-void scrolling_screen (string) ;
+void screen_init (string) ;
 
-// void countingdown (void) ;
+void start_ready_screen(gstatus_t *my_game_status, gstatus_t *opponent_game_status) ;
 
+void final_scrolling_screen(string) ;
 
 #endif /* SCROLLSTRING_H */

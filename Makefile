@@ -32,7 +32,7 @@ random_number_generator.o: random_number_generator.c random_number_generator.h .
 transmitter.o: transmitter.c transmitter.h gameboard.h ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/avr/timer0.h ../../drivers/avr/usart1.h ../../drivers/avr/prescale.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-scrollstring.o: scrollstring.c scrollstring.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h
+scrollstring.o: scrollstring.c scrollstring.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h gameboard.h transmitter.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.h

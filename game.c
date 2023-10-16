@@ -14,12 +14,12 @@
 #define BUGS_RATE 200
 #define KILLER_DOT_RATE 5
 #define RECEIVING_RATE 100
-#define COUNTINGDOWN_RATE 2600
 
-static uint8_t my_bugs_killed; // Change to uint8_t
+
+static uint8_t my_bugs_killed;
 static uint8_t opponent_bugs_killed;
-static uint8_t my_game_status = READY;
-static uint8_t opponent_game_status = START;
+static gstatus_t my_game_status = START;
+static gstatus_t opponent_game_status = START;
 static uint8_t starting_bugs_num = STARTING_NUM_BUGS;
 static uint8_t current_stage;
 
@@ -32,33 +32,10 @@ int main (void)
     tinygl_text_speed_set(MESSAGE_RATE);
     transmitter_receiver_init();
     
-    scrolling_screen("BUG KILLER");
-    // int16_t countingdown_tick = -1;
-    // while(1)
-    // {
-    //     pacer_wait();
-    //     tinygl_update();
-    //     nav_update ();
-        
-    //     if (my_game_status == START && navswitch_push_event_p (NAVSWITCH_PUSH)) {
-    //         nav_init ();
-    //         tinygl_text("READY!");
-    //         my_game_status = READY;
-    //         send_game_status(READY);
-    //     } else if (my_game_status == READY && opponent_game_status == READY && countingdown_tick == -1) {
-    //         tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
-    //         tinygl_text("3 2 1 GO");
-    //         countingdown_tick = 0;
-    //     } else if (my_game_status == READY && opponent_game_status == READY && countingdown_tick <= COUNTINGDOWN_RATE){
-    //         countingdown_tick++;
-    //     } else if (my_game_status == READY && opponent_game_status == READY && countingdown_tick > COUNTINGDOWN_RATE){
-    //         tinygl_init (PACER_RATE);
-    //         break;
-    //     }
-    //     if (ready_to_read()) {
-    //         opponent_game_status = get_game_status();
-    //     }
-    // }
+    screen_init("BUG KILLER");
+    start_ready_screen(&my_game_status, &opponent_game_status);
+    tinygl_init (PACER_RATE);
+
 
     uint16_t navswitch_tick = 0;
     uint16_t bugs_tick = 0;
@@ -145,26 +122,15 @@ int main (void)
 
     if (my_bugs_killed > opponent_bugs_killed) {
         // YOU WIN!
-        scrolling_screen("YOU WIN!");
+        final_scrolling_screen("YOU WIN!");
     } else if (opponent_bugs_killed > my_bugs_killed) {
         // YOU LOSE!
-        scrolling_screen("YOU LOSE!");
+        final_scrolling_screen("YOU LOSE!");
     } else {
         // TIE!
-        scrolling_screen("TIE!");
+        final_scrolling_screen("TIE!");
     }
 
-
-
-    
-    while(1)
-    {
-        pacer_wait();
-        tinygl_update();
-        nav_update ();
-
-        
-    }
 
     return 0;
 }
