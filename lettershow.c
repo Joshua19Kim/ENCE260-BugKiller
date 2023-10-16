@@ -8,7 +8,7 @@
 #include "pacer.h"
 #include "tinygl.h"
 #include "../fonts/font3x5_1.h"
-#include "scrollstring.h"
+#include "lettershow.h"
 #include "gameboard.h"
 #include "navswitch.h"
 #include "transmitter.h"
@@ -62,4 +62,19 @@ void final_scrolling_screen(string letters)
         tinygl_update();
         nav_update ();
     }
+}
+
+void final_screen (char my_bugs_killed, char opponent_bugs_killed)
+{
+    if (my_bugs_killed > opponent_bugs_killed) {
+        // YOU WIN!
+        final_scrolling_screen("YOU WIN!");
+    } else if (opponent_bugs_killed > my_bugs_killed) {
+        // YOU LOSE!
+        final_scrolling_screen("YOU LOSE!");
+    } else {
+        // TIE!
+        final_scrolling_screen("TIE!");
+    }
+
 }

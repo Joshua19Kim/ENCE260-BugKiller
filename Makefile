@@ -17,7 +17,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h scrollstring.h gameboard.h transmitter.h
+game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h lettershow.h gameboard.h transmitter.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -32,7 +32,7 @@ random_number_generator.o: random_number_generator.c random_number_generator.h .
 transmitter.o: transmitter.c transmitter.h gameboard.h ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/avr/timer0.h ../../drivers/avr/usart1.h ../../drivers/avr/prescale.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-scrollstring.o: scrollstring.c scrollstring.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h gameboard.h transmitter.h
+lettershow.o: lettershow.c lettershow.h ../../drivers/avr/system.h ../../fonts/font3x5_1.h ../../utils/font.h ../../utils/pacer.h ../../utils/tinygl.h ../../drivers/navswitch.h gameboard.h transmitter.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 pio.o: ../../drivers/avr/pio.c ../../drivers/avr/pio.h ../../drivers/avr/system.h
@@ -73,7 +73,7 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 
 
 # Link: create ELF output file from object files.
-game.out: game.o gameboard.o scrollstring.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o transmitter.o ir_uart.o timer0.o usart1.o prescale.o random_number_generator.h
+game.out: game.o gameboard.o lettershow.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o transmitter.o ir_uart.o timer0.o usart1.o prescale.o random_number_generator.h
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

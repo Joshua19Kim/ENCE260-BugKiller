@@ -13,11 +13,11 @@ void transmitter_receiver_init (void);
 
 bool ready_to_read (void);
 
-void send_my_kills (uint8_t);
+void send_my_kills (char);
 
 bool ready_to_write (void);
 
-uint8_t get_opponent_kills (void);
+char get_opponent_kills (void);
 
 void send_game_status (gstatus_t);
 

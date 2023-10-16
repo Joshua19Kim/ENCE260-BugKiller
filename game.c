@@ -1,7 +1,7 @@
 #include "system.h"
 #include "pacer.h"
 #include "pio.h"
-#include "scrollstring.h"
+#include "lettershow.h"
 #include "gameboard.h"
 #include "navswitch.h"
 #include "transmitter.h"
@@ -16,8 +16,9 @@
 #define RECEIVING_RATE 100
 
 
-static uint8_t my_bugs_killed;
-static uint8_t opponent_bugs_killed;
+static char total_my_bugs_killed = 0;
+static uint8_t my_bugs_killed = 0;
+static char opponent_bugs_killed = 0;
 static gstatus_t my_game_status = START;
 static gstatus_t opponent_game_status = START;
 static uint8_t starting_bugs_num = STARTING_NUM_BUGS;
@@ -74,6 +75,7 @@ int main (void)
         if (bugs_tick >= PACER_RATE / BUGS_RATE-1) {
             bugs_tick = 0;
             if (my_game_status == READY || my_game_status == FINISHED) {
+                total_my_bugs_killed += my_bugs_killed;
                 tinygl_init (PACER_RATE);
                 starting_bugs_num += INCR_RATE_BUGS;
                 bugs_create(dots, starting_bugs_num);
@@ -92,13 +94,14 @@ int main (void)
                     my_game_status = GAMEOVER;
                     if (ready_to_write())
                         send_game_status(GAMEOVER);
+                    total_my_bugs_killed += my_bugs_killed;
                     break;
                 }
             } else if (my_game_status == GAMEOVER) {
+                total_my_bugs_killed += my_bugs_killed;
                 break;
             }
         }
-
         if (receiving_tick >= PACER_RATE / RECEIVING_RATE - 1) {
             receiving_tick = 0;
             if (ready_to_read()) {
@@ -106,8 +109,6 @@ int main (void)
                 my_game_status = opponent_game_status;
             }
         }
-
-
         killer_tick++;
         navswitch_tick++;
         bugs_tick++;
@@ -115,21 +116,11 @@ int main (void)
     }
 
     if (ready_to_write())
-        send_my_kills(my_bugs_killed);
+        send_my_kills(total_my_bugs_killed);
     if (ready_to_read())
         opponent_bugs_killed = get_opponent_kills();
     
-
-    if (my_bugs_killed > opponent_bugs_killed) {
-        // YOU WIN!
-        final_scrolling_screen("YOU WIN!");
-    } else if (opponent_bugs_killed > my_bugs_killed) {
-        // YOU LOSE!
-        final_scrolling_screen("YOU LOSE!");
-    } else {
-        // TIE!
-        final_scrolling_screen("TIE!");
-    }
+    final_screen(total_my_bugs_killed, opponent_bugs_killed);
 
 
     return 0;

@@ -19,10 +19,9 @@ void transmitter_receiver_init (void)
     ir_uart_init ();
 }
 
-void send_my_kills (uint8_t my_kills)
+void send_my_kills (char my_kills)
 {
-    char my_kills_char = my_kills;
-    ir_uart_putc (my_kills_char);
+    ir_uart_putc (my_kills);
 }
 
 bool ready_to_read (void)
@@ -30,10 +29,9 @@ bool ready_to_read (void)
     return ir_uart_read_ready_p ();
 }
 
-uint8_t get_opponent_kills (void)
+char get_opponent_kills (void)
 {
-    uint8_t opponent_kills = (uint8_t)ir_uart_getc ();
-    return (opponent_kills);
+    return ir_uart_getc ();
 }
 
 bool ready_to_write (void)
