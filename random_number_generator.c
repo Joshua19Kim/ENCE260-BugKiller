@@ -1,13 +1,13 @@
-/** @ random_number_generator.h
- *  @ Author: Jay Brydon
- *  @ 14 October 2023
- *  @ The code for a linear congruential generator (LCG), which is a pseudorandom number generator.
+/** @file random_number_generator.h
+ *  @author Jay Brydon
+ *  @date 14 October 2023
+ *  @brief The code for a linear congruential generator (LCG), which is a pseudorandom number generator.
 */
 
+#include "system.h"
 #include "random_number_generator.h"
-#include <avr/io.h>
+#include "avr/io.h"
 #include <stdint.h>
-#include <stdio.h>
 
 #define MULTIPLIER 36 /* Parameters for the LCG. */
 #define INCREMENT 11
@@ -32,7 +32,7 @@ void set_modulus (uint8_t value)
     modulus = value;
 }
 
-void set_seed (void)
+void set_seed ()
 {
     /* Sets the seed as the value from the counter.
        This allows for different sets of pseudorandom numbers each time. */
@@ -56,7 +56,7 @@ uint8_t get_next_random_number (uint8_t inputModulus)
     /* Returns the next LCG value (which is used as a random number). 
        Combines everything into one function too. */
     if (!got_starting_value) {
-        rng_counter_init();
+        // rng_counter_init();
         set_modulus(inputModulus);
         set_seed();
         set_starting_lcg_value();

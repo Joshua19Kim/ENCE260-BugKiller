@@ -64,15 +64,15 @@ void final_scrolling_screen(string letters)
     }
 }
 
-void final_screen (char my_bugs_killed, char opponent_bugs_killed)
+void final_screen (result_t my_result)
 {
-    if (my_bugs_killed > opponent_bugs_killed) {
+    if (my_result == WINNER) {
         // YOU WIN!
         final_scrolling_screen("YOU WIN!");
-    } else if (opponent_bugs_killed > my_bugs_killed) {
+    } else if (my_result == LOSER) {
         // YOU LOSE!
         final_scrolling_screen("YOU LOSE!");
-    } else {
+    } else if (my_result == TIE){
         // TIE!
         final_scrolling_screen("TIE!");
     }

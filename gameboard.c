@@ -9,7 +9,7 @@
 #include "gameboard.h"
 #include "tinygl.h"
 #include "stdlib.h"
-#include "random_number_generator.h"
+// #include "random_number_generator.h"
 
 static uint8_t killer_blink_flag = 0;
 

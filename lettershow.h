@@ -19,6 +19,6 @@ void start_ready_screen(gstatus_t *, gstatus_t *) ;
 
 void final_scrolling_screen(string) ;
 
-void final_screen (char , char);
+void final_screen (result_t);
 
 #endif /* LETTERSHOW_H */

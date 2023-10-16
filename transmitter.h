@@ -23,4 +23,8 @@ void send_game_status (gstatus_t);
 
 gstatus_t get_game_status (void);
 
+void send_result(result_t);
+
+result_t get_result (void);
+
 #endif /* TRANSMITTER_H */

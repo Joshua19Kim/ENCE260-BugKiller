@@ -36,6 +36,12 @@ typedef enum game_status {
     GAMEOVER
 } gstatus_t;
 
+typedef enum game_result {
+    WINNER,
+    LOSER,
+    TIE
+} result_t;
+
 
 void nav_init (void) ;
 

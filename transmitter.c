@@ -48,3 +48,13 @@ gstatus_t get_game_status (void)
 {
     return ir_uart_getc ();   
 }
+
+void send_result(result_t result)
+{
+    ir_uart_putc(result);
+}
+
+result_t get_result (void)
+{
+    return ir_uart_getc ();   
+}

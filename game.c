@@ -5,6 +5,7 @@
 #include "gameboard.h"
 #include "navswitch.h"
 #include "transmitter.h"
+// #include "random_number_generator.h"
 
 
 
@@ -19,10 +20,12 @@
 static char total_my_bugs_killed = 0;
 static uint8_t my_bugs_killed = 0;
 static char opponent_bugs_killed = 0;
+static result_t my_result;
 static gstatus_t my_game_status = START;
 static gstatus_t opponent_game_status = START;
 static uint8_t starting_bugs_num = STARTING_NUM_BUGS;
 static uint8_t current_stage;
+static bool finished_first = 0;
 
 int main (void)
 {   
@@ -92,20 +95,35 @@ int main (void)
             } else if ((my_game_status == PLAYING) && (TOTAL_STAGE == current_stage)) {
                 if (my_bugs_killed == starting_bugs_num) {
                     my_game_status = GAMEOVER;
+                    total_my_bugs_killed += my_bugs_killed;
                     if (ready_to_write())
                         send_game_status(GAMEOVER);
-                    total_my_bugs_killed += my_bugs_killed;
+                    if (ready_to_write())
+                        send_my_kills(total_my_bugs_killed);
+                    finished_first = 1;
                     break;
                 }
-            } else if (my_game_status == GAMEOVER) {
-                total_my_bugs_killed += my_bugs_killed;
-                break;
             }
         }
         if (receiving_tick >= PACER_RATE / RECEIVING_RATE - 1) {
             receiving_tick = 0;
             if (ready_to_read()) {
                 opponent_game_status = get_game_status();
+                if (opponent_game_status == GAMEOVER) {
+                    opponent_bugs_killed = get_opponent_kills();
+                    total_my_bugs_killed += my_bugs_killed;
+                    if (total_my_bugs_killed > opponent_bugs_killed) {
+                        send_result(WINNER);
+                        my_result = WINNER;
+                    } else if (total_my_bugs_killed < opponent_bugs_killed) {
+                        send_result(LOSER);
+                        my_result = LOSER;
+                    } else if (total_my_bugs_killed == opponent_bugs_killed){
+                        send_result(TIE);
+                        my_result = TIE;
+                    }
+                    break;
+                }
                 my_game_status = opponent_game_status;
             }
         }
@@ -115,12 +133,18 @@ int main (void)
         receiving_tick++;
     }
 
-    if (ready_to_write())
-        send_my_kills(total_my_bugs_killed);
-    if (ready_to_read())
-        opponent_bugs_killed = get_opponent_kills();
-    
-    final_screen(total_my_bugs_killed, opponent_bugs_killed);
+    if (finished_first) {
+        result_t opponent_result = get_result();
+        if (opponent_result == WINNER) {
+            my_result = LOSER;
+        } else if (opponent_result == LOSER) {
+            my_result = WINNER;
+        } else if (opponent_result == TIE) {
+            my_result = TIE;
+        }
+    }
+
+    final_screen(my_result);
 
 
     return 0;
