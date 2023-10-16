@@ -1,7 +1,7 @@
-/** @ gameboard.c
- *  @ author Joshua Byoungsoo Kim
- *  @ 10 October 2023
- *  @ it shows current game board status on LED matrix
+/** @file gameboard.c
+ *  @author Joshua Byoungsoo Kim
+ *  @date 10 October 2023
+ *  @brief it shows current game board status on LED matrix
 */
 #include "system.h"
 #include "pacer.h"
@@ -9,20 +9,23 @@
 #include "gameboard.h"
 #include "tinygl.h"
 #include "stdlib.h"
+// #include "random_number_generator.h"
 
 static uint8_t killer_blink_flag = 0;
 
-/* initialize navswitch*/
+/** initialize navswitch*/
 void nav_init (void) {
     navswitch_init ();
 }
 
-/*update navswitch*/
+/** update navswitch*/
 void nav_update (void) {
     navswitch_update ();
 }
 
-/* make killer point blinking*/
+/** make killer point blinking
+ * @param killer killer's location (x,y coordinate)
+*/
 void killer_blink (killer_t killer) {
     if (killer_blink_flag == 0) {
         tinygl_draw_point(killer.pos, 1);
@@ -33,7 +36,7 @@ void killer_blink (killer_t killer) {
     }
 }
 
-/* check whether the given spot is filled by a bug*/
+/** check whether the given spot is filled by a bug*/
 int8_t bug_check (bugs_t *dots, uint8_t num, tinygl_point_t pos)
 {
     for (uint8_t i = 0; i < num; i++)
@@ -45,7 +48,7 @@ int8_t bug_check (bugs_t *dots, uint8_t num, tinygl_point_t pos)
     return -1;
 }
 
-/* change x,y coordinates of killer */
+/** change x,y coordinates of killer */
 void killer_move (bugs_t *dots, killer_t *killer, int8_t dx, int8_t dy)
 {
     tinygl_point_t n_pos;
@@ -60,9 +63,9 @@ void killer_move (bugs_t *dots, killer_t *killer, int8_t dx, int8_t dy)
     tinygl_draw_point (killer->pos, 1);
 }
 
-/* move killer position according to the navswitch control
+/** move killer position according to the navswitch control
     when navswitch is pushed, it will kill the bug if there is bug on that spot*/
-uint16_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage, uint16_t bugs_killed) {
+uint8_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage) {
 
     if (navswitch_push_event_p (NAVSWITCH_NORTH)) 
         killer_move(bugs, killer, 0,-1);
@@ -78,13 +81,13 @@ uint16_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage, 
         if ( i != -1 && bugs[i].status) {
             tinygl_draw_point (bugs[i].pos, 0);
             bugs[i].status = false;
-            bugs_killed++;
+            return 1;
         }
     }
-    return bugs_killed;
+    return 0;
 }
 
-/* create bugs on the LED matrix based on different stages*/
+/** create bugs on the LED matrix based on different stages */
 void bugs_create (bugs_t *bugs, uint8_t stage)
 {   
     for (uint8_t i = 0; i < TOTAL_SPOTS; i++) {
@@ -103,6 +106,9 @@ void bugs_create (bugs_t *bugs, uint8_t stage)
         uint8_t y;
 
         do {
+            // x = get_next_random_number(TINYGL_WIDTH);
+            // y = get_next_random_number(TINYGL_HEIGHT);
+
             x = rand () % TINYGL_WIDTH;
             y = rand () % TINYGL_HEIGHT;
         } while (bug_check (bugs, i, tinygl_point (x, y)) != -1);
