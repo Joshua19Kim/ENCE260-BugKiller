@@ -48,5 +48,5 @@ void send_game_status (gstatus_t status)
 
 gstatus_t get_game_status (void)
 {
-    return (uint8_t)ir_uart_getc ();   
+    return ir_uart_getc ();   
 }

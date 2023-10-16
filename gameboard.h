@@ -14,7 +14,7 @@
 #define TOTAL_SPOTS 35
 #define TOTAL_STAGE 3
 #define INCR_RATE_BUGS 2
-#define STARTING_NUM_BUGS 2
+#define STARTING_NUM_BUGS 0
 
 
 typedef struct killer_position
@@ -47,7 +47,7 @@ int8_t bug_check (bugs_t*, uint8_t, tinygl_point_t) ;
 
 void killer_move (bugs_t*, killer_t*, int8_t, int8_t) ;
 
-uint16_t killer_control (bugs_t*, killer_t*, uint8_t, uint16_t) ;
+uint8_t killer_control (bugs_t*, killer_t*, uint8_t) ;
 
 void bugs_create (bugs_t*, uint8_t) ;
 

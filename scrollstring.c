@@ -20,20 +20,3 @@ void scrolling_screen (string letters)
     tinygl_text(letters);
 }
 
-// void countingdown (void)
-// {
-//     tinygl_start ();
-//     tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
-//     tinygl_text("3 2 1 GO");
-//     pacer_init (PACER_RATE);
-//     uint16_t flag = 0;
-//     while(1)
-//     {
-//         pacer_wait();
-//         tinygl_update();
-//         flag++;
-//         if (flag > 2600) {
-//             break;
-//         }
-//     }
-// }

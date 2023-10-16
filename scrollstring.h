@@ -11,7 +11,7 @@ typedef char string[];
 
 void scrolling_screen (string) ;
 
-void countingdown (void) ;
+// void countingdown (void) ;
 
 
 #endif /* SCROLLSTRING_H */
