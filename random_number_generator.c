@@ -1,7 +1,7 @@
-/** @file   random_number_generator.c
+/** @file    random_number_generator.c
  *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
- *  @date   14 October 2023
- *  @brief  The code for a linear congruential generator (LCG), which is a pseudorandom number generator.
+ *  @date    14 October 2023
+ *  @brief   The code for a linear congruential generator (LCG), which is a pseudorandom number generator.
 */
 
 #include "random_number_generator.h"

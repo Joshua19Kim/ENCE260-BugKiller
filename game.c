@@ -34,7 +34,7 @@ static uint8_t starting_bugs_num = STARTING_NUM_BUGS;
 static uint8_t current_stage;
 static bool finished_first = false;
 
-/* the Main function to the run game. */
+/** the Main function to the run game. */
 int main (void)
 {   
     /* Initialises the required processes. */
@@ -124,7 +124,7 @@ int main (void)
                 /* When the game status is PLAYING and it is final stage,
                     if a player kills all the bugs in the stage,
                     game status will be GAMEOVER and this status will be sent to the oppoent
-                    and total number of killed bugs will be sent as well. */
+                    and my total number of killed bugs will be sent as well. */
             } else if ((my_game_status == PLAYING) && (TOTAL_STAGE == current_stage)) {
                 if (my_bugs_killed == starting_bugs_num) {
                     my_game_status = GAMEOVER;
@@ -149,7 +149,7 @@ int main (void)
                 /* The player receives GAMEOVER status from opponent
                     when the opponent kills all the bugs in the final stage
                     before the player kills all. The player also recieves
-                    the opponents total number of bugs killed and finds
+                    the opponents total number of bugs killed and compare and update
                     the game result. */
                 if (opponent_game_status == GAMEOVER) {
                     opponent_bugs_killed = get_opponent_kills();
@@ -168,6 +168,7 @@ int main (void)
                     }
                     break;
                 }
+
                 /* The player receive FINISH status from opponent
                     when the stage is not final stage. */
                 my_game_status = opponent_game_status;
@@ -176,8 +177,8 @@ int main (void)
 
         /* For flashing the blue LED light (at different rates on each stage). */
         if (blue_led_tick >= (PACER_RATE / (blue_led_rate) - 1)) {
-                blue_led_blink();
-                blue_led_tick = 0;
+            blue_led_tick = 0;
+            blue_led_blink();       
         }
 
         /* Increment of ticks. */

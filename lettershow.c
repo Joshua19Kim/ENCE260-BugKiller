@@ -1,6 +1,6 @@
 /** @file    lettershow.c
  *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
- *  @date    10 October 2023
+ *  @date    10 Oct 2023
  *  @brief   it shows strings on LED matrix
 */
 

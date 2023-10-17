@@ -1,6 +1,6 @@
 /** @file    gameboard.c
  *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
- *  @date    10 October 2023
+ *  @date    10 Oct 2023
  *  @brief   it shows current game board status on LED matrix
 */
 
@@ -44,6 +44,8 @@ void killer_blink(killer_t killer)
 }
 
 /** Check whether the given spot is filled by a bug
+ * return index number of array of bugs if there is bug
+ * return -1 if there is no bug
  * @param dots the pointer for the array of the each bug position(x,y coordinates)
  * @param total_bug_num the total number of bugs in the stage
  * @param pos the coordinates(x,y) that want to be check
