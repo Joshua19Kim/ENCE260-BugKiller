@@ -8,7 +8,8 @@
 #include "navswitch.h"
 #include "gameboard.h"
 #include "tinygl.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <avr/io.h>
 // #include "random_number_generator.h"
 
 static uint8_t killer_blink_flag = 0;
@@ -109,7 +110,9 @@ void bugs_create (bugs_t *bugs, uint8_t stage)
             // x = get_next_random_number(TINYGL_WIDTH);
             // y = get_next_random_number(TINYGL_HEIGHT);
 
+            srand(TCNT1);
             x = rand () % TINYGL_WIDTH;
+            srand(TCNT1);
             y = rand () % TINYGL_HEIGHT;
         } while (bug_check (bugs, i, tinygl_point (x, y)) != -1);
         
