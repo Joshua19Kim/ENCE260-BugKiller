@@ -1,7 +1,7 @@
-/** @file   gameboard.c
- *  @author Joshua Byoungsoo Kim
- *  @date   10 October 2023
- *  @brief  it shows current game board status on LED matrix
+/** @file    gameboard.c
+ *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
+ *  @date    10 October 2023
+ *  @brief   it shows current game board status on LED matrix
 */
 #include "system.h"
 #include "pacer.h"
@@ -12,22 +12,26 @@
 #include <avr/io.h>
 // #include "random_number_generator.h"
 
+/** Flag to turn killer position LED ON and OFF*/
 static uint8_t killer_blink_flag = 0;
 
-/** initialize navswitch*/
-void nav_init (void) {
+/** Initialize navswitch*/
+void nav_init(void) 
+{
     navswitch_init ();
 }
 
-/** update navswitch*/
-void nav_update (void) {
+/** Update navswitch*/
+void nav_update(void) 
+{
     navswitch_update ();
 }
 
-/** make killer point blinking
+/** Make killer point blinking
  * @param killer killer's location (x,y coordinate)
 */
-void killer_blink (killer_t killer) {
+void killer_blink(killer_t killer) 
+{
     if (killer_blink_flag == 0) {
         tinygl_draw_point(killer.pos, 1);
         killer_blink_flag = 1;
@@ -37,24 +41,33 @@ void killer_blink (killer_t killer) {
     }
 }
 
-/** check whether the given spot is filled by a bug*/
-int8_t bug_check (bugs_t *dots, uint8_t num, tinygl_point_t pos)
+/** Check whether the given spot is filled by a bug
+ * @param dots the pointer for the array of the each bug position(x,y coordinates)
+ * @param total_bug_num the total number of bugs in the stage
+ * @param pos the coordinates(x,y) that want to be check
+*/
+int8_t bug_check(bugs_t *dots, uint8_t total_bug_num, tinygl_point_t pos)
 {
-    for (uint8_t i = 0; i < num; i++)
-    {
-        if (dots[i].pos.x == pos.x
-            && dots[i].pos.y == pos.y && dots[i].status)
+    for (uint8_t i = 0; i < total_bug_num; i++) {
+        if (dots[i].pos.x == pos.x && dots[i].pos.y == pos.y && dots[i].status) {
             return i;
+        }
     }
     return -1;
 }
 
-/** change x,y coordinates of killer */
-void killer_move (bugs_t *dots, killer_t *killer, int8_t dx, int8_t dy)
+/** Change x,y coordinates of killer
+ * @param dots the pointer for the array of the each bug position(x,y coordinates)
+ * @param killer the pointer for the player's location as x,y coordinates
+ * @param dx x coordinate that player wants to move
+ * @param dy y coordinate that player wants to move
+ */
+void killer_move(bugs_t *dots, killer_t *killer, int8_t dx, int8_t dy)
 {
     tinygl_point_t n_pos;
 
     n_pos = tinygl_point (killer->pos.x + dx, killer->pos.y + dy);
+    /* check whether there was bug on the location before the player move in */
     if ( bug_check (dots, TOTAL_SPOTS, killer->pos) != -1) {
         tinygl_draw_point (killer->pos,1);
     } else {
@@ -64,9 +77,14 @@ void killer_move (bugs_t *dots, killer_t *killer, int8_t dx, int8_t dy)
     tinygl_draw_point (killer->pos, 1);
 }
 
-/** move killer position according to the navswitch control
-    when navswitch is pushed, it will kill the bug if there is bug on that spot*/
-uint8_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage) {
+/** 
+ * Move killer position according to the navswitch control when navswitch is pushed, 
+ * it will kill the bug if there is bug on that spot
+ * @param bugs the pointer for the array of the each bug position(x,y coordinates)
+ * @param killer the pointer for the player's location as x,y coordinates
+ * @param total_bug_num the total bugs number that the player start with in the stage
+ */
+uint8_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t total_bug_num) {
 
     if (navswitch_push_event_p (NAVSWITCH_NORTH)) 
         killer_move(bugs, killer, 0,-1);
@@ -78,7 +96,7 @@ uint8_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage) {
         killer_move(bugs, killer, 1,0);
     if (navswitch_push_event_p (NAVSWITCH_PUSH)) 
     {
-        int8_t i = bug_check (bugs, current_stage, killer->pos);
+        int8_t i = bug_check (bugs, total_bug_num, killer->pos);
         if ( i != -1 && bugs[i].status) {
             tinygl_draw_point (bugs[i].pos, 0);
             bugs[i].status = false;
@@ -88,8 +106,11 @@ uint8_t killer_control (bugs_t *bugs, killer_t *killer, uint8_t current_stage) {
     return 0;
 }
 
-/** create bugs on the LED matrix based on different stages */
-void bugs_create (bugs_t *bugs, uint8_t stage)
+/** create bugs on the LED matrix based on different stages 
+ * @param bugs the pointer for the array of the each bug position(x,y coordinates)
+ * @param total_bug_num the total bugs number that the player start with in the stage
+*/
+void bugs_create (bugs_t *bugs, uint8_t total_bug_num)
 {   
     for (uint8_t i = 0; i < TOTAL_SPOTS; i++) {
         for (uint8_t dx = 0; dx < TINYGL_WIDTH; dx++) {
@@ -101,7 +122,7 @@ void bugs_create (bugs_t *bugs, uint8_t stage)
         }
     }
 
-    for (uint8_t i = 0; i < stage; i++)
+    for (uint8_t i = 0; i < total_bug_num; i++)
     {
         uint8_t x;
         uint8_t y;
