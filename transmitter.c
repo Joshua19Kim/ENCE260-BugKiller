@@ -1,7 +1,7 @@
-/** @ random_number_generator.h
- *  @ Author: Jay Brydon
- *  @ 14 October 2023
- *  @ The code for the transmitter and receiver for the game.
+/** @file   random_number_generator.h
+ *  @author Jay Brydon
+ *  @date   14 October 2023
+ *  @brief  The code for the transmitter and receiver for the game.
 */
 
 #include "transmitter.h"

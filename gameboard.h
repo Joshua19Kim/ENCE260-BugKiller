@@ -1,7 +1,7 @@
-/** @ gameboard.h
- *  @ author Joshua Byoungsoo Kim
- *  @ 10 October 2023
- *  @ it shows current game board status on LED matrix
+/** @file   gameboard.h
+ *  @author author Joshua Byoungsoo Kim
+ *  @date   10 October 2023
+ *  @brief  it shows current game board status on LED matrix
 */
 
 #ifndef GAMEBOARD_H
