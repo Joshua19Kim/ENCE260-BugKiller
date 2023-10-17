@@ -1,7 +1,7 @@
-/** @file gameboard.c
+/** @file   gameboard.c
  *  @author Joshua Byoungsoo Kim
- *  @date 10 October 2023
- *  @brief it shows current game board status on LED matrix
+ *  @date   10 October 2023
+ *  @brief  it shows current game board status on LED matrix
 */
 #include "system.h"
 #include "pacer.h"

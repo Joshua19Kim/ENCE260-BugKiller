@@ -4,6 +4,7 @@
         "ready.h": "c",
         "gameboard.h": "c",
         "random_number_generator.h": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "transmitter.h": "c"
     }
 }

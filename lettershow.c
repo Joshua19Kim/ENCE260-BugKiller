@@ -1,7 +1,7 @@
-/** @ scrollingstring.c
- *  @ author Joshua Byoungsoo Kim
- *  @ 10 October 2023
- *  @ it shows strings on LED matrix
+/** @file   scrollingstring.c
+ *  @author Joshua Byoungsoo Kim
+ *  @date   10 October 2023
+ *  @brief  it shows strings on LED matrix
 */
 
 #include "system.h"
@@ -68,10 +68,10 @@ void final_screen (result_t my_result)
 {
     if (my_result == WINNER) {
         // YOU WIN!
-        final_scrolling_screen("YOU WIN!");
+        final_scrolling_screen("WIN!");
     } else if (my_result == LOSER) {
         // YOU LOSE!
-        final_scrolling_screen("YOU LOSE!");
+        final_scrolling_screen("LOSE!");
     } else if (my_result == TIE){
         // TIE!
         final_scrolling_screen("TIE!");
