@@ -1,7 +1,7 @@
-/** @ lettershow.h
- *  @ author Joshua Byoungsoo Kim
- *  @ 10 October 2023
- *  @ it shows strings on LED matrix
+/** @file    scrollingstring.h
+ *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
+ *  @date    10 October 2023
+ *  @brief   it shows strings on LED matrix
 */
 
 #ifndef LETTERSHOW_H
@@ -10,15 +10,32 @@
 #include "gameboard.h"
 
 
-
 typedef char string[];
 
-void screen_init (string) ;
 
-void start_ready_screen(gstatus_t *, gstatus_t *) ;
+/** Initialise tinygl for scrolling letters 
+ * @param letters string value that will be shown on player's screen
+*/
+void screen_init (string letters);
 
-void final_scrolling_screen(string) ;
 
-void final_screen (result_t);
+/** Show Ready and counting down screen 
+ * @param my_game_status the pointer of player's game status
+ * @param opponent_game_status the pointer of opponent's game status
+ */
+void start_ready_screen(gstatus_t *my_game_status, gstatus_t *opponent_game_status) ;
+
+
+/** Show the game result on player's screen
+ * @param letters string value that will be shown on player's screen
+ */
+void final_scrolling_screen(string letters) ;
+
+
+/** Check my game result and show it on player's screen 
+ * @param my_result final game result of the player
+*/
+void final_screen(result_t my_result);
+
 
 #endif /* LETTERSHOW_H */

@@ -1,7 +1,7 @@
-/** @file   gameboard.h
- *  @author author Joshua Byoungsoo Kim
- *  @date   10 October 2023
- *  @brief  it shows current game board status on LED matrix
+/** @file    gameboard.h
+ *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
+ *  @date    10 October 2023
+ *  @brief   it shows current game board status on LED matrix
 */
 
 #ifndef GAMEBOARD_H
@@ -43,19 +43,19 @@ typedef enum game_result {
 } result_t;
 
 
-void nav_init (void) ;
+void nav_init(void);
 
-void nav_update (void) ;
+void nav_update(void);
 
-void killer_blink (killer_t) ;
+void killer_blink(killer_t);
 
-int8_t bug_check (bugs_t*, uint8_t, tinygl_point_t) ;
+int8_t bug_check(bugs_t*, uint8_t, tinygl_point_t);
 
-void killer_move (bugs_t*, killer_t*, int8_t, int8_t) ;
+void killer_move(bugs_t*, killer_t*, int8_t, int8_t);
 
-uint8_t killer_control (bugs_t*, killer_t*, uint8_t) ;
+uint8_t killer_control(bugs_t*, killer_t*, uint8_t);
 
-void bugs_create (bugs_t*, uint8_t) ;
+void bugs_create(bugs_t*, uint8_t);
 
 
 
