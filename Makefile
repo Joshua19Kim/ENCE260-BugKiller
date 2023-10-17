@@ -1,7 +1,7 @@
 # File:   Makefile
-# Author: M. P. Hayes, UCECE
-# Date:   12 Sep 2010
-# Descr:  Makefile for game
+# Author: Jay Brydon (jbr268), Joshua Byoungsoo Kim (bki42)
+# Date:   17 Oct 2023
+# Descr:  Makefile for our game called Bug Killer.
 
 # Definitions.
 CC = avr-gcc
@@ -17,7 +17,7 @@ all: game.out
 
 
 # Compile: create object files from C source files.
-game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h lettershow.h gameboard.h transmitter.h
+game.o: game.c ../../drivers/avr/system.h ../../drivers/display.h ../../utils/pacer.h lettershow.h gameboard.h transmitter.h blue_led_timer.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
 system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
@@ -26,8 +26,8 @@ system.o: ../../drivers/avr/system.c ../../drivers/avr/system.h
 gameboard.o: gameboard.c gameboard.h ../../utils/pacer.h ../../drivers/avr/system.h ../../utils/tinygl.h ../../drivers/navswitch.h
 	$(CC) -c $(CFLAGS) $< -o $@
 
-# random_number_generator.o: random_number_generator.c random_number_generator.h ../../drivers/avr/system.h
-# 	$(CC) -c $(CFLAGS) $< -o $@
+blue_led_timer.o: blue_led_timer.c blue_led_timer.h ../../drivers/avr/system.h
+	$(CC) -c $(CFLAGS) $< -o $@
 
 transmitter.o: transmitter.c transmitter.h gameboard.h ../../drivers/avr/system.h ../../drivers/avr/ir_uart.h ../../drivers/avr/timer0.h ../../drivers/avr/usart1.h ../../drivers/avr/prescale.h
 	$(CC) -c $(CFLAGS) $< -o $@
@@ -73,7 +73,7 @@ tinygl.o: ../../utils/tinygl.c ../../drivers/avr/system.h ../../drivers/display.
 
 
 # Link: create ELF output file from object files.
-game.out: game.o gameboard.o lettershow.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o transmitter.o ir_uart.o timer0.o usart1.o prescale.o 
+game.out: game.o gameboard.o lettershow.o pio.o system.o timer.o display.o ledmat.o font.o pacer.o tinygl.o navswitch.o transmitter.o ir_uart.o timer0.o usart1.o prescale.o blue_led_timer.o
 	$(CC) $(CFLAGS) $^ -o $@ -lm
 	$(SIZE) $@
 

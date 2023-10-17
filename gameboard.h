@@ -13,7 +13,7 @@
 
 #define TOTAL_SPOTS 35
 #define TOTAL_STAGE 3
-#define INCR_RATE_BUGS 2
+#define INCR_RATE_BUGS 3
 #define STARTING_NUM_BUGS 0
 
 

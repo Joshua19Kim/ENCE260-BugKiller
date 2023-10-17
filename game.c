@@ -12,6 +12,7 @@
 #include "gameboard.h"
 #include "navswitch.h"
 #include "transmitter.h"
+#include "blue_led_timer.h"
 // #include "random_number_generator.h"
 
 
@@ -20,10 +21,10 @@
 #define MESSAGE_RATE 20
 #define NAVSWITCH_RATE 200
 #define BUGS_RATE 200
-#define KILLER_DOT_RATE 5
+#define KILLER_DOT_RATE 10
 #define RECEIVING_RATE 100
 
-
+static uint8_t blue_led_rate = 2;
 static char total_my_bugs_killed = 0;
 static uint8_t my_bugs_killed = 0;
 static char opponent_bugs_killed = 0;
@@ -44,6 +45,7 @@ int main (void)
     tinygl_init (PACER_RATE);
     tinygl_text_speed_set(MESSAGE_RATE);
     transmitter_receiver_init();
+    blue_led_init();
     
     /* Show the scrolling letters of Game title 'BUG KILLER', ready sign 'READY! and counting down number ' 
         it will go to next screen by pushing navswitch */
@@ -58,6 +60,7 @@ int main (void)
     uint16_t bugs_field_tick = 0;
     uint16_t killer_tick = 0;
     uint16_t receiving_tick = 0;
+    uint16_t blue_led_tick = 0;
     
     /* Set array containing each bugs' x,y coordinates */
     bugs_t dots[TOTAL_SPOTS];
@@ -75,7 +78,7 @@ int main (void)
         tinygl_update ();
 
         /* killer blinking task */
-        if (killer_tick >= (PACER_RATE / KILLER_DOT_RATE-1)/2) {
+        if (killer_tick >= (PACER_RATE / KILLER_DOT_RATE - 1)) {
             killer_tick = 0;
             /* make killer blinking*/
             killer_blink (killer);
@@ -109,6 +112,7 @@ int main (void)
                 my_bugs_killed = 0;
                 my_game_status = PLAYING;
                 opponent_game_status = PLAYING;
+                blue_led_rate = led_rate_update(current_stage, blue_led_rate);
 
                 /* When the game status is PLAYING but it is not final stage,
                     if a player kills same number of bugs with total number of bugs,
@@ -169,11 +173,19 @@ int main (void)
                 my_game_status = opponent_game_status;
             }
         }
+
+        
+        if (blue_led_tick >= (PACER_RATE / (blue_led_rate) - 1)) {
+                blue_led_blink();
+                blue_led_tick = 0;
+        }
+
         /* Increment of ticks*/
         killer_tick++;
         navswitch_tick++;
         bugs_field_tick++;
         receiving_tick++;
+        blue_led_tick++;
     }
     /* If the player finishes the final stage first,
         receive the game result from opponent which is already calculated.
@@ -188,6 +200,9 @@ int main (void)
             my_result = TIE;
         }
     }
+
+    blue_led_on();
+
     /* show the result on screen.*/
     final_screen(my_result);
 
