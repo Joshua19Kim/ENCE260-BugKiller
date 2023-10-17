@@ -5,6 +5,7 @@
         "gameboard.h": "c",
         "random_number_generator.h": "c",
         "stdlib.h": "c",
-        "transmitter.h": "c"
+        "transmitter.h": "c",
+        "blue_led_timer.h": "c"
     }
 }

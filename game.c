@@ -60,7 +60,7 @@ int main (void)
     uint16_t bugs_field_tick = 0;
     uint16_t killer_tick = 0;
     uint16_t receiving_tick = 0;
-    uint16_t blue_led_tick = 0;
+    int32_t blue_led_tick = 0;
     
     /* Set array containing each bugs' x,y coordinates */
     bugs_t dots[TOTAL_SPOTS];
