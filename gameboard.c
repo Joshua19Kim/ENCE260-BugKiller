@@ -3,16 +3,18 @@
  *  @date    10 October 2023
  *  @brief   it shows current game board status on LED matrix
 */
+
+
 #include "system.h"
 #include "pacer.h"
 #include "navswitch.h"
 #include "gameboard.h"
 #include "tinygl.h"
 #include <stdlib.h>
+#include <stdint.h>
 #include <avr/io.h>
-// #include "random_number_generator.h"
 
-/** Flag to turn killer position LED ON and OFF*/
+/* Flag to turn killer position LED ON and OFF. */
 static uint8_t killer_blink_flag = 0;
 
 /** Initialize navswitch*/
@@ -127,14 +129,14 @@ void bugs_create (bugs_t *bugs, uint8_t total_bug_num)
         uint8_t x;
         uint8_t y;
 
+        /* This will plot the points/bugs on the LED screen for each stage. It utilises the
+            random number generator rand(), and TCNT1, as the seed of the random
+            number generator, to plot them randomly. */
         do {
-            // x = get_next_random_number(TINYGL_WIDTH);
-            // y = get_next_random_number(TINYGL_HEIGHT);
-
             srand(TCNT1);
-            x = rand () % TINYGL_WIDTH;
+            x = rand() % TINYGL_WIDTH;
             srand(TCNT1);
-            y = rand () % TINYGL_HEIGHT;
+            y = rand() % TINYGL_HEIGHT;
         } while (bug_check (bugs, i, tinygl_point (x, y)) != -1);
         
         bugs[i].pos.x = x;
@@ -144,4 +146,3 @@ void bugs_create (bugs_t *bugs, uint8_t total_bug_num)
         tinygl_draw_point (bugs[i].pos, 1);
     }
 }
-

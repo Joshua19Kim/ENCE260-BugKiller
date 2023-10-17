@@ -1,7 +1,7 @@
 # File:   Makefile
 # Author: Jay Brydon (jbr268), Joshua Byoungsoo Kim (bki42)
 # Date:   17 Oct 2023
-# Descr:  Makefile for our game called Bug Killer.
+# Descr:  Makefile for the game called Bug Killer.
 
 # Definitions.
 CC = avr-gcc

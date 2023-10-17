@@ -1,4 +1,4 @@
-/** @file    scrollingstring.c
+/** @file    lettershow.c
  *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
  *  @date    10 October 2023
  *  @brief   it shows strings on LED matrix
@@ -39,13 +39,13 @@ void start_ready_screen(gstatus_t *my_game_status, gstatus_t *opponent_game_stat
         nav_update();
 
         /* When the player push navswitch shows sign 'READY!' on screen
-            and send my game status to opponent */
+            and send my game status to opponent. */
         if (*my_game_status == START && navswitch_push_event_p (NAVSWITCH_PUSH)) {
             nav_init();
             tinygl_text("READY!");
             *my_game_status = READY;
             send_game_status(READY);
-        /* When both players are READY, both screen starts counting down number 3, 2, 1 GO */
+        /* When both players are READY, both screen starts counting down number 3, 2, 1 GO. */
         } else if (*my_game_status == READY && *opponent_game_status == READY && countingdown_tick == -1) {
             tinygl_text_mode_set(TINYGL_TEXT_MODE_STEP);
             tinygl_text("3 2 1 GO");
@@ -53,11 +53,11 @@ void start_ready_screen(gstatus_t *my_game_status, gstatus_t *opponent_game_stat
         /* Control the time of letter "3 2 1 GO", otherwise it will repeat. */
         } else if (*my_game_status == READY && *opponent_game_status == READY && countingdown_tick <= COUNTINGDOWN_MAX_TICK) {
             countingdown_tick++;
-        /* When it reaches the max tick, stop countingdown screen*/
+        /* When it reaches the max tick, stop countingdown screen. */
         } else if (*my_game_status == READY && *opponent_game_status == READY && countingdown_tick > COUNTINGDOWN_MAX_TICK) {
             break;
         }
-        /* Read the opponent game status */
+        /* Read the opponent game status. */
         if (ready_to_read()) {
             *opponent_game_status = get_game_status();
         }

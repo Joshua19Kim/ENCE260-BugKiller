@@ -1,7 +1,7 @@
-/** @file   game.c
- *  @author Joshua Byoungsoo Kim, Jay Brydon
- *  @date   17 Oct 2023
- *  @brief  Implement the game 'Bug killer'
+/** @file    game.c
+ *  @authors Joshua Byoungsoo Kim (bki42), Jay Brydon (jbr268)
+ *  @date    17 Oct 2023
+ *  @brief   Implement the game 'Bug killer'
 */
 
 
@@ -13,9 +13,7 @@
 #include "navswitch.h"
 #include "transmitter.h"
 #include "blue_led_timer.h"
-// #include "random_number_generator.h"
-
-
+#include <stdint.h>
 
 #define PACER_RATE 1000
 #define MESSAGE_RATE 20
@@ -24,6 +22,7 @@
 #define KILLER_DOT_RATE 10
 #define RECEIVING_RATE 100
 
+/* Initialisation of the required static variables. */
 static uint8_t blue_led_rate = 2;
 static char total_my_bugs_killed = 0;
 static uint8_t my_bugs_killed = 0;
@@ -35,10 +34,10 @@ static uint8_t starting_bugs_num = STARTING_NUM_BUGS;
 static uint8_t current_stage;
 static bool finished_first = false;
 
-/* main function to run game. */
+/* the Main function to the run game. */
 int main (void)
 {   
-    /* Initialise system, navswitch, pacer, tinygl and ir_uart */
+    /* Initialises the required processes. */
     system_init();
     nav_init();
     pacer_init (PACER_RATE);
@@ -48,49 +47,48 @@ int main (void)
     blue_led_init();
     
     /* Show the scrolling letters of Game title 'BUG KILLER', ready sign 'READY! and counting down number ' 
-        it will go to next screen by pushing navswitch */
+        it will go to next screen by pushing navswitch. */
     screen_init("BUG KILLER");
     start_ready_screen(&my_game_status, &opponent_game_status);
     
-    /* Initialise tinygl again for next screen */
+    /* Initialise tinygl again for next screen. */
     tinygl_init (PACER_RATE);
 
-    /* Set ticks for different tasks in while loop with pacer */
+    /* Set ticks for different tasks in while loop with pacer. */
     uint16_t navswitch_tick = 0;
     uint16_t bugs_field_tick = 0;
     uint16_t killer_tick = 0;
     uint16_t receiving_tick = 0;
     int32_t blue_led_tick = 0;
     
-    /* Set array containing each bugs' x,y coordinates */
+    /* Sets the array containing each bugs' (x,y) coordinates. */
     bugs_t dots[TOTAL_SPOTS];
     
-
-    /* set up the starting point of killer */
+    /* Sets up the starting point of the killer. */
     killer_t killer;
     killer.pos.x = 2;
     killer.pos.y = 3;
 
-    /* While loop will be running until game status become GAMEOVER */
+    /* While loop will be running until the game status becomes GAMEOVER. */
     while (1) {
         
         pacer_wait ();
         tinygl_update ();
 
-        /* killer blinking task */
+        /* Killer blinking task. */
         if (killer_tick >= (PACER_RATE / KILLER_DOT_RATE - 1)) {
             killer_tick = 0;
-            /* make killer blinking*/
+            /* For making the killer blink. */
             killer_blink (killer);
         }
-        /* navigation switch task */
+        /* Navigation switch task. */
         if (navswitch_tick >= PACER_RATE / NAVSWITCH_RATE-1) {
             if (my_game_status == PLAYING) {
                 navswitch_tick = 0;
                 nav_update();
                 /* Once a player push navswitch when killer is sitting on a bug,
                     it will update the number of killed bugs in the stage, and
-                    the bug will be off */
+                    the bug will be off. */
                 my_bugs_killed += killer_control(dots, &killer, starting_bugs_num);
             }   
         }
@@ -101,7 +99,7 @@ int main (void)
             /* When the game status is READY or when the stages are FINISHED(except final stage),
                 total number of killed bugs during game will be updated.
                 the number of bugs for the next stage will be added by certain rate(INCR_RAGE_BUGS).
-                The game status will be updated to PLAYING */
+                The game status will be updated to PLAYING. */
             if (my_game_status == READY || my_game_status == FINISHED) {
                 tinygl_init (PACER_RATE);
                 total_my_bugs_killed += my_bugs_killed;
@@ -116,7 +114,7 @@ int main (void)
 
                 /* When the game status is PLAYING but it is not final stage,
                     if a player kills same number of bugs with total number of bugs,
-                    game status will be FINISHED and this status will be sent to the opponent */
+                    game status will be FINISHED and this status will be sent to the opponent. */
             } else if ((my_game_status == PLAYING) && (TOTAL_STAGE != current_stage)) {
                 if (my_bugs_killed == starting_bugs_num && ready_to_write()) {
                     my_game_status = FINISHED;
@@ -140,22 +138,24 @@ int main (void)
                 }
             }
         }
-        /* receiving message task*/
+
+        /* The receiving the messages task. */
         if (receiving_tick >= PACER_RATE / RECEIVING_RATE - 1) {
             receiving_tick = 0;
-            /* Read the game status of opponent */
             if (ready_to_read()) {
+                /* Read the game status of opponent. */
                 opponent_game_status = get_game_status();
 
-                /* The player receives GAMEOVER status from opponent 
-                    when the opponent kills all the bugs in the final stage 
-                    before the player kills all.
-                    The player also recieves */
+                /* The player receives GAMEOVER status from opponent
+                    when the opponent kills all the bugs in the final stage
+                    before the player kills all. The player also recieves
+                    the opponents total number of bugs killed and finds
+                    the game result. */
                 if (opponent_game_status == GAMEOVER) {
                     opponent_bugs_killed = get_opponent_kills();
                     total_my_bugs_killed += my_bugs_killed;
                     /* Compare player's total killed number with opponent's total number,
-                        update my_result and send the result to the oppoent */
+                        update my_result and send the result to the oppoent. */
                     if (total_my_bugs_killed > opponent_bugs_killed) {
                         send_result(WINNER);
                         my_result = WINNER;
@@ -169,27 +169,28 @@ int main (void)
                     break;
                 }
                 /* The player receive FINISH status from opponent
-                    when the stage is not final stage*/
+                    when the stage is not final stage. */
                 my_game_status = opponent_game_status;
             }
         }
 
-        
+        /* For flashing the blue LED light (at different rates on each stage). */
         if (blue_led_tick >= (PACER_RATE / (blue_led_rate) - 1)) {
                 blue_led_blink();
                 blue_led_tick = 0;
         }
 
-        /* Increment of ticks*/
+        /* Increment of ticks. */
         killer_tick++;
         navswitch_tick++;
         bugs_field_tick++;
         receiving_tick++;
         blue_led_tick++;
     }
+
     /* If the player finishes the final stage first,
         receive the game result from opponent which is already calculated.
-        Update my result.*/
+        Update my result. */
     if (finished_first) {
         result_t opponent_result = get_result();
         if (opponent_result == WINNER) {
@@ -201,6 +202,7 @@ int main (void)
         }
     }
 
+    /* Keeps the blue LED on after the game finishes. */
     blue_led_on();
 
     /* show the result on screen.*/

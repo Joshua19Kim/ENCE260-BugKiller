@@ -4,9 +4,9 @@
  *  @brief   it shows current game board status on LED matrix
 */
 
+
 #ifndef GAMEBOARD_H
 #define GAMEBOARD_H
-
 
 #include "system.h"
 #include "tinygl.h"
@@ -15,7 +15,6 @@
 #define TOTAL_STAGE 3
 #define INCR_RATE_BUGS 3
 #define STARTING_NUM_BUGS 0
-
 
 typedef struct killer_position
 {
@@ -42,7 +41,6 @@ typedef enum game_result {
     TIE
 } result_t;
 
-
 void nav_init(void);
 
 void nav_update(void);
@@ -56,7 +54,5 @@ void killer_move(bugs_t*, killer_t*, int8_t, int8_t);
 uint8_t killer_control(bugs_t*, killer_t*, uint8_t);
 
 void bugs_create(bugs_t*, uint8_t);
-
-
 
 #endif /* GAMEBOARD.H */

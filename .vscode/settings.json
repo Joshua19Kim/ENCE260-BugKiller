@@ -6,6 +6,7 @@
         "random_number_generator.h": "c",
         "stdlib.h": "c",
         "transmitter.h": "c",
-        "blue_led_timer.h": "c"
+        "blue_led_timer.h": "c",
+        "stdint.h": "c"
     }
 }
