@@ -1,0 +1,12 @@
+{
+    "files.associations": {
+        "tinygl.h": "c",
+        "ready.h": "c",
+        "gameboard.h": "c",
+        "random_number_generator.h": "c",
+        "stdlib.h": "c",
+        "transmitter.h": "c",
+        "blue_led_timer.h": "c",
+        "stdint.h": "c"
+    }
+}
