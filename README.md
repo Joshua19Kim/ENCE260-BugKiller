@@ -1,3 +1,12 @@
+- The grade of this project was 84/100 -
+
+This was the team project for ENCE260 of second year course in UC.
+We creatively designed this by ourselves and programmed.
+The pair of UCfunkits have to be used to play this game.
+Two kits will have wireless connection and the information will be transmitted and received at the same time based on how the players perform.
+
+
+
 Bug Killer.
 
 By Joshua Byoungsoo Kim (bki42) and Jay Brydon (jbr268), 18 Oct 2023.
