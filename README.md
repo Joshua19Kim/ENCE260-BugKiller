@@ -1,4 +1,4 @@
-- The grade of this project was 84/100 -
+**--The grade of this project was A--**
 
 This was the team project for ENCE260 of second year course in UC.
 We creatively designed this by ourselves and programmed.
